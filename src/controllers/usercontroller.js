@@ -21,8 +21,8 @@ const userEmail = await users.findOne({
 
     let answer;
     if(req.file) answer = await uploadToCloud(req.file, res);
-const salt = await bcrypt.genSalt(10)
- const hashedpass = await bcrypt.hash(password,salt)
+const salt = await bcrypt.genSalt(10);
+ const hashedpass = await bcrypt.hash(password, salt);
  const newUser = await users.create(
     {
         firstname,
@@ -99,19 +99,30 @@ return res.status(500).json({
         message: "Id not Found",
         error: error.message,
       });
- 
+      const checkemail = await users.findOne({
+        email: req.body.email,
+      });
+      if(checkemail){
+        return res.status(404).json({
+          status: "404",
+          message: "Email Already Exist In Database",
+
+        });
+      }
       let result;
+      const passecryption = await bcrypt.genSalt(10);
+      const hashmypass = await bcrypt.hash(password,passecryption);
       if(req.file) result = await uploadToCloud(req.file, res);
-      const salt = await bcrypt.genSalt(10);
-      const hashedPass = await bcrypt.hash(password,salt)
+      // const salt = await bcrypt.genSalt(10);
+      // const hashedPass = await bcrypt.hash(password,salt)
 
  const mine = await users.findByIdAndUpdate(id, {
-       profile:  result?.secure_url || "https://res.cloudinary.com/dxitrjcef/image/upload/v1696870762/kazdcipwzwu0ycprzlg6.jpg",
-       lastname,
-       email, 
-       password:hashedPass,
-       firstname,
-       role,
+        firstname,
+        lastname,
+        email, 
+        password: hashmypass,
+        profile:  result?.secure_url || "https://res.cloudinary.com/dxitrjcef/image/upload/v1696870762/kazdcipwzwu0ycprzlg6.jpg",
+        role,
       })
  
  
@@ -121,12 +132,15 @@ return res.status(500).json({
        data: mine,
 
      });
+
+    
    
   } catch (error) {
    return res.status(500).json({
-     message: "Failded to Update",
-     error: error.message
-   })
+      status: "500",
+      message: "Failded to Update",
+      error: error.message
+   });
   }
 };
 //delete user

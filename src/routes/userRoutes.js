@@ -4,7 +4,7 @@ import {signup, login, updateUser,DeleteUser,GetUsers,GetUserid} from "../contro
 const userRoutes = express.Router();
 userRoutes.post("/signup",fileUpload.single("profile"), signup);
 userRoutes.post("/login",fileUpload.single("profile"), login);
-userRoutes.put("/updateUser/:id",fileUpload.single("profile"),updateUser);
+userRoutes.put("/update/:id",fileUpload.single("profile"),updateUser);
 userRoutes.delete("/delete/:id",DeleteUser);
 userRoutes.get("/read",GetUsers);
 userRoutes.get("/read/:id",GetUserid);
