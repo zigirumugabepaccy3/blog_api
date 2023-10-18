@@ -104,5 +104,28 @@
  *         description: A blog not found with the provided ID.
  *       500:
 *         description: Failed to update blog data.
-
- */
+/api/klab/blog/comment/{id}:
+ *   post:
+ *     summary: Send comment.
+ *     tags: [myBlogs]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               comment:
+ *                 type: string
+ *               
+ *     responses:
+ *       200:
+ *         description: Your post have been posted.
+ *       500:
+ *         description: Failed To Post.
+ */

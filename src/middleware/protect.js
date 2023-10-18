@@ -28,16 +28,9 @@ const Authorization = async (req, res, next) => {
       });
     }
 
-    if (logedUser.role !== "admin") {
-      return res.status(404).json({
-        status: "404",
-        message: "this is only accessed by admin",
-      });
-    } else {
-      req.users = logedUser;
-      // ggg
-      next();
-    }
+    req.users = logedUser;
+    // ggg
+    next();
   } catch (error) {
     res.status(500).json({
       status: "500",
