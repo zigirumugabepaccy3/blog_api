@@ -3,50 +3,75 @@ import { uploadToCloud } from "../helper/cloud";
 import Jwt  from "jsonwebtoken";
 import bcrypt, {genSalt,hash} from "bcrypt";
  // create user
+ const validatePassword = (password) => {
+  // Add your password validation rules here
+  // For example, at least 8 characters with a mix of letters, numbers, and special characters
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  return passwordRegex.test(password);
+};
 
- export const signup = async (req,res) =>{
-try{
-const {firstname,lastname,email,password,profile} = req.body;
-const userEmail = await users.findOne({
-    email: req.body.email,
-});
-    if(userEmail){
-        return res.status(500).json({
-            status:"500",
-            message:"Email Already exist",
+const validateEmail = (email) => {
+  // Add your email validation rules here
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
-        });
-    }
+export const signup = async (req, res) => {
+  try {
+      const { firstname, lastname, email, password, profile } = req.body;
 
+      if (!validateEmail(email)) {
+          return res.status(400).json({
+              status: "400",
+              message: "Invalid email address format.",
+          });
+      }
 
-    let answer;
-    if(req.file) answer = await uploadToCloud(req.file, res);
-const salt = await bcrypt.genSalt(10);
- const hashedpass = await bcrypt.hash(password, salt);
- const newUser = await users.create(
-    {
-        firstname,
-        lastname,
-        email,
-        password,
-        password:hashedpass,
-        profile: answer?.secure_url,
-    }
- )
- return res.status(201).json({
-    status:"201",
-    message:"User Created Successfully",
-    data: newUser,
- })
-}catch (error){
-return res.status(500).json({
-    status:"500",
-    message:"Failed To Create User",
-    error:error.message,
-})
-}
- };
+      const userEmail = await users.findOne({
+          email: req.body.email,
+      });
 
+      if (userEmail) {
+          return res.status(500).json({
+              status: "500",
+              message: "Email Already Exists",
+          });
+      }
+
+      if (!validatePassword(password)) {
+          return res.status(400).json({
+              status: "400",
+              message: "Password must be at least 8 characters long and contain at least one letter, one number, and one special character.",
+          });
+      }
+
+      let answer;
+      if (req.file) answer = await uploadToCloud(req.file, res);
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPass = await bcrypt.hash(password, salt);
+
+      const newUser = await users.create({
+          firstname,
+          lastname,
+          email,
+          password: hashedPass, // Use the hashed password
+          profile: answer?.secure_url,
+      });
+
+      return res.status(201).json({
+          status: "201",
+          message: "User Created Successfully",
+          data: newUser,
+      });
+  } catch (error) {
+      return res.status(500).json({
+          status: "500",
+          message: "Failed To Create User",
+          error: error.message,
+      });
+  }
+};
  // login
 
  export const login = async (req, res) => {

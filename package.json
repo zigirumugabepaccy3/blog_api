@@ -7,8 +7,11 @@
     "start": "npm run build && node ./build/src/index.js",
     "start:dev": "nodemon --exec babel-node ./src/index.js",
     "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel -d ./build ./src/index.js -s",
-    "build": "npm run clean && npm run build-babel"
+    "build-babel": "babel -d ./build/src/ ./src/ -s",
+    "build": "npm run build-babel"
+  },
+  "engines": {
+    "node": "14.20.1"
   },
   "author": "",
   "license": "ISC",
@@ -36,5 +39,6 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.22.20",
     "@babel/runtime": "^7.23.1"
+    
   }
 }
