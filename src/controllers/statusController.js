@@ -1,4 +1,4 @@
-import statusInfo from "../modules/statusModels";
+import statusInfo from "../models/statusModel";
 // create
 export const createInfo = async (req, res) => {
     const {fname,lname} = req.body;

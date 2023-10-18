@@ -1,6 +1,6 @@
-import BlogeTable from "../modules/blogmodules";
+import BlogeTable from "../models/blogmodel";
 import { uploadToCloud } from "../helper/cloud";
-import Comment from "../modules/commentmodules";
+import Comment from "../models/commentModel";
 
 //create blog
 export const createBlog = async (req, res) => {
