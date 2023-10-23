@@ -5,12 +5,12 @@ import Comment from "../models/commentModel";
 //create blog
 export const createBlog = async (req, res) => {
   try {
-    const { blog_Image, BlogTitle, blogContent } = req.body;
+    const { blog_Image, blogTitle, blogContent } = req.body;
     let answer;
     if (req.file) answer = await uploadToCloud(req.file, res);
     const insertblog = await BlogeTable.create({
       blog_Image: answer?.secure_url,
-      BlogTitle,
+      BlogTitle:blogTitle,
       blogContent,
       author: req.users.lastname,
       authorP: req.users.profile,
@@ -32,12 +32,25 @@ export const createBlog = async (req, res) => {
 
 export const ViewAllBlogs = async (req, res) => {
   try {
-    const allblogs = await BlogeTable.find();
-    return res.status(200).json({
-      statusbar: "200",
-      message: "Here Are All Created Blogs",
-      data: allblogs,
-    });
+    // const allblogs = await BlogeTable.find();
+    // return res.status(200).json({
+    //   statusbar: "200",
+    //   message: "Here Are All Created Blogs",
+    //   data: allblogs,
+    // });
+
+    const result = await BlogeTable.aggregate([
+      {
+        $lookup: {
+          from: 'commentmodel',
+          localField: '_id',
+          foreignField: 'blog',
+          as: 'comments',
+        }
+      }
+    ]);
+    return res.status(200).json(result);
+
   } catch (error) {
     return res.status(500).json({
       statusbar: "500",
