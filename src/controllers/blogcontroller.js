@@ -10,7 +10,7 @@ export const createBlog = async (req, res) => {
     if (req.file) answer = await uploadToCloud(req.file, res);
     const insertblog = await BlogeTable.create({
       blog_Image: answer?.secure_url,
-      BlogTitle:blogTitle,
+      blogTitle,
       blogContent,
       author: req.users.lastname,
       authorP: req.users.profile,

@@ -25,10 +25,9 @@ const options = {
           description:
             'Blogs.',
         },
-        // servers:[{
-        //     url:'https://zigirumugabe-pacifique.onrender.com',
-        //     url: 'http://localhost:5000',
-        // }],
+        servers:[{
+            url:'https://zigirumugabe-pacifique.onrender.com',
+        }],
         security: [
             {
               BearerAuth: [],
