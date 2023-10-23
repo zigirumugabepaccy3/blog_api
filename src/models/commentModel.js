@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { ObjectId } from "mongoose";
+import { Schema } from "mongoose";
 const CommentSchema = new mongoose.Schema({
   user: {
     type: ObjectId,
@@ -10,15 +11,28 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     default: new Date(),
   },
-  blog: {
+  BlogId: {
     type: ObjectId,
-    ref: "MyBlog",
+    ref: "myblogs",
     require: true,
   },
-  comment: {
+  message: {
     type: String,
     require: true,
+  
+  },
+  username:
+  {
+type: String,
+ref:"users",
+require: true,
+  },
+  userPhoto:
+  {
+type: String,
+ref:"users",
+require: true,
   },
 });
-const Comment = mongoose.model("Comment", CommentSchema);
-export default Comment;
+const commentModel = mongoose.model("comments", CommentSchema);
+export default commentModel;

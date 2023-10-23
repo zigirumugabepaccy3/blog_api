@@ -9,8 +9,8 @@ import {
     getComments
  } from "../controllers/blogcontroller";
  import fileUpload from "../helper/multer";
-import Authorization from "../middleware/authentication"
-import protect from "../middleware/protect"
+import Authorization from "../middleware/authentication";
+import commentAuthanticate from "../middleware/protect";
 
  const routeInitiator =  express.Router();
 
@@ -19,6 +19,6 @@ import protect from "../middleware/protect"
  routeInitiator.get("/ViewBlogById/:id",ViewBlogById);
  routeInitiator.delete("/DeleteBlog/:id", DeleteBlog);
  routeInitiator.put("/updateBlog/:id",Authorization,fileUpload.single("blog_Image"), updateBlog);
- routeInitiator.post("/comment/:id",protect, AddComment);
+ routeInitiator.post("/comment/:id",commentAuthanticate, AddComment);
  routeInitiator.get("/comment/:id", getComments);
  export default routeInitiator;

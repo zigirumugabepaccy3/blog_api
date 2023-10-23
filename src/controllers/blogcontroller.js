@@ -39,17 +39,12 @@ export const ViewAllBlogs = async (req, res) => {
     //   data: allblogs,
     // });
 
-    const result = await BlogeTable.aggregate([
-      {
-        $lookup: {
-          from: 'commentmodel',
-          localField: '_id',
-          foreignField: 'blog',
-          as: 'comments',
-        }
-      }
-    ]);
-    return res.status(200).json(result);
+    const result = await BlogeTable.find().populate({path:'comment', select:'user message username'});
+    return res.status(200).json({
+      status:"200",
+      message: "viewblogs :",
+      data: result,
+    });
 
   } catch (error) {
     return res.status(500).json({
@@ -64,7 +59,7 @@ export const ViewAllBlogs = async (req, res) => {
 export const ViewBlogById = async (req, res) => {
   try {
     const { id } = req.params;
-    const blogId = await BlogeTable.findById(id);
+    const blogId = await BlogeTable.findById(id).populate({path:'comment', select:'user message username userPhoto'});
     if (!blogId) {
       return res.status(404).json({
         statusbar: "404",
@@ -145,32 +140,46 @@ export const updateBlog = async (req, res) => {
     });
   }
 };
-
+// Create Comments
 export const AddComment = async (req, res) => {
   try {
-    if (!req.body.comment || req.body.comment === "") {
+    if (!req.body.message || req.body.message === "") {
       return res.status(400).json({ message: "Comment is required" });
     }
     const { users } = req;
     const { id } = req.params;
-    const blog = await BlogeTable.findById(id);
-    if (!blog) {
+    const {message}=req.body;
+    const getId = await BlogeTable.findById(id);
+    if (!getId) {
       return res.status(400).json({ message: "Blog is not found" });
     }
-    const comment = await Comment.create({
+    const newComment = await Comment.create({
+      message,
       user: users._id,
-      blog: blog._id,
-      comment:req.body.comment,
+      BlogId: getId._id,
+      username: users.firstname,
+      userPhoto: users.profile,   
     });
+   // updatePost
+    const updatePost = await BlogeTable.findByIdAndUpdate(
+
+      id,{
+        $push: {comment:newComment._id}
+      },
+      {
+        new: true
+      }
+    )
     return res.status(201).json({
       message: "comment sent successfully",
-      comment,
+      updatePost,
+      data:newComment,
     });
   } catch (error) {
     return res.status(500).json({ Error: error.message });
   }
 };
-
+// Get All comments
 export const getComments = async (req, res) => {
   try {
     const { id } = req.params;

@@ -1,14 +1,15 @@
 import Jwt from "jsonwebtoken";
 import users from "../models/userModel";
-const commentAuthanticate = async (req, res, next) => {
+
+commentAuth = async (req, res, next) => {
   let token;
 
   try {
     if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer ")
+      req.headers.commentAuth &&
+      req.headers.commentAuth.startsWith("Bearer ")
     ) {
-      token = req.headers.authorization.split(" ")[1];
+      token = req.headers.commentAuth.split(" ")[1];
     }
 
     if (!token) {
@@ -19,17 +20,19 @@ const commentAuthanticate = async (req, res, next) => {
     }
 
     const decoded = await Jwt.verify(token, process.env.JWT_SECRET);
-    const logedUser = await users.findById(decoded.id);
+    const User = await users.findById(decoded.id);
 
-    if (!logedUser) {
+    if (!User) {
       return res.status(403).json({
         status: "403",
         message: "Token has Expired Please login Again",
       });
     }
 
-    req.users = logedUser;
-    next();
+    if (User) {
+      req.logedinUser = User;
+      next();
+    }
   } catch (error) {
     res.status(500).json({
       status: "500",
@@ -38,4 +41,4 @@ const commentAuthanticate = async (req, res, next) => {
   }
 };
 
-export default commentAuthanticate;
+export default commentAuth;

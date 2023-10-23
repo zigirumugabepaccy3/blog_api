@@ -21,7 +21,13 @@ const BlogSchema = new mongoose.Schema({
     authorP: {
         type: String,
         require: false,
-    }
+    },
+    comment: [{
+        
+        type: String,
+        ref: 'comments',
+    },
+]
 });
 
 const BlogeTable = mongoose.model("MyBlog", BlogSchema);
