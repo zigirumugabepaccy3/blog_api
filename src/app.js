@@ -27,7 +27,7 @@ const options = {
         },
         servers:[{
             // url:'https://zigirumugabe-pacifique.onrender.com',
-            url:'http://localhost:4200/',
+            url:'http://localhost:5100/',
         }],
         security: [
             {
@@ -72,4 +72,4 @@ app.get("/",(req, res)=>{
         message: "welcome",
     });
 });
-export default app
+export default app;

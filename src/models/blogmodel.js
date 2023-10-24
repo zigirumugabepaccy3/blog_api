@@ -27,7 +27,11 @@ const BlogSchema = new mongoose.Schema({
         type: String,
         ref: 'comments',
     },
-]
+],
+views: {
+    type: Number,
+    default: 0,
+}
 });
 
 const BlogeTable = mongoose.model("MyBlog", BlogSchema);

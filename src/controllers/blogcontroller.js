@@ -66,13 +66,18 @@ export const ViewBlogById = async (req, res) => {
         message: "Id Not Found",
         error: error.message,
       });
-    } else {
+    } 
+    //increment the view count by 1
+    blogId.views +=1;
+    await blogId.save();
+    
       return res.status(200).json({
         statusbar: "200",
         message: "Blog For Entered Id Is Here:",
         data: blogId,
+        views: blogId.views,
       });
-    }
+    
   } catch (error) {
     return res.status(500).json({
       statusbar: "500",

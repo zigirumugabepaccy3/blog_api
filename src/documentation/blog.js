@@ -116,11 +116,11 @@
  *           type: string
  *     requestBody:
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               comment:
+ *               message:
  *                 type: string
  *               
  *     responses:
