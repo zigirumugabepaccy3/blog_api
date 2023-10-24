@@ -1,6 +1,6 @@
 import Jwt from "jsonwebtoken";
 import users from "../models/userModel";
-const Authorization = async (req, res, next) => {
+const commentAuthanticate = async (req, res, next) => {
   let token;
 
   try {
@@ -28,16 +28,8 @@ const Authorization = async (req, res, next) => {
       });
     }
 
-    if (logedUser.role !== "admin") {
-      return res.status(404).json({
-        status: "404",
-        message: "this is only accessed by admin",
-      });
-    } else {
-      req.users = logedUser;
-      // ggg
-      next();
-    }
+    req.users = logedUser;
+    next();
   } catch (error) {
     res.status(500).json({
       status: "500",
@@ -46,4 +38,4 @@ const Authorization = async (req, res, next) => {
   }
 };
 
-export default Authorization;
+export default commentAuthanticate;

@@ -5,7 +5,7 @@ const BlogSchema = new mongoose.Schema({
         require: false,
 
     },
-    BlogTitle: {
+    blogTitle: {
         type: String,
         require: true,
 
@@ -21,7 +21,17 @@ const BlogSchema = new mongoose.Schema({
     authorP: {
         type: String,
         require: false,
-    }
+    },
+    comment: [{
+        
+        type: String,
+        ref: 'comments',
+    },
+],
+views: {
+    type: Number,
+    default: 0,
+}
 });
 
 const BlogeTable = mongoose.model("MyBlog", BlogSchema);

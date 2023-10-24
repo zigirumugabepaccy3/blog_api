@@ -1,14 +1,15 @@
 import Jwt from "jsonwebtoken";
 import users from "../models/userModel";
-const Authorization = async (req, res, next) => {
+
+commentAuth = async (req, res, next) => {
   let token;
 
   try {
     if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer ")
+      req.headers.commentAuth &&
+      req.headers.commentAuth.startsWith("Bearer ")
     ) {
-      token = req.headers.authorization.split(" ")[1];
+      token = req.headers.commentAuth.split(" ")[1];
     }
 
     if (!token) {
@@ -19,23 +20,17 @@ const Authorization = async (req, res, next) => {
     }
 
     const decoded = await Jwt.verify(token, process.env.JWT_SECRET);
-    const logedUser = await users.findById(decoded.id);
+    const User = await users.findById(decoded.id);
 
-    if (!logedUser) {
+    if (!User) {
       return res.status(403).json({
         status: "403",
         message: "Token has Expired Please login Again",
       });
     }
 
-    if (logedUser.role !== "admin") {
-      return res.status(404).json({
-        status: "404",
-        message: "this is only accessed by admin",
-      });
-    } else {
-      req.users = logedUser;
-      // ggg
+    if (User) {
+      req.logedinUser = User;
       next();
     }
   } catch (error) {
@@ -46,4 +41,4 @@ const Authorization = async (req, res, next) => {
   }
 };
 
-export default Authorization;
+export default commentAuth;
