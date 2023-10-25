@@ -22,6 +22,11 @@ const BlogSchema = new mongoose.Schema({
         type: String,
         require: false,
     },
+    PostedOn:{
+        type: Date,
+        default: Date.now,
+    },
+        
     comment: [{
         
         type: String,
