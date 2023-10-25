@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { ObjectId } from "mongoose";
 import { Schema } from "mongoose";
+//comment model side
 const CommentSchema = new mongoose.Schema({
   user: {
     type: ObjectId,
