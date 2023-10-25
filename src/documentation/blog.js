@@ -14,8 +14,6 @@
  *                 type: string
  *               blogContent:
  *                 type: string
- *               blogComment:
- *                 type: string
  *               blog_Image:
  *                 type: string
  *                 format: binary

@@ -36,7 +36,7 @@ const BlogSchema = new mongoose.Schema({
 views: {
     type: Number,
     default: 0,
-}
+},
 });
 
 const BlogeTable = mongoose.model("MyBlog", BlogSchema);
