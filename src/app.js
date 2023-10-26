@@ -49,7 +49,7 @@ const options = {
     apis:['./src/documentation/*.js']
     
 }
-
+//swagger
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/documentation',SwaggerUi.serve, SwaggerUi.setup(swaggerSpec));
 
