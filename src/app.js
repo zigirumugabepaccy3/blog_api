@@ -26,8 +26,8 @@ const options = {
             'Blogs.',
         },
         servers:[{
-            url:'https://zigirumugabe-pacifique.onrender.com',
-            // url:'http://localhost:5100/',
+            // url:'https://zigirumugabe-pacifique.onrender.com',
+            url:'http://localhost:5300/',
         }],
         security: [
             {
@@ -63,8 +63,6 @@ app.use("/api/Klab/info",statusRoutes);
 app.use("/api/klab/blog",routeInitiator);
 app.use("/api/Klab/user",userRoutes);
 //app.use("/api/doc",docrouter);
-
-//
 app.get("/",(req, res)=>{
     res.status(200).json({
         status: "Success",

@@ -147,7 +147,7 @@ export const updateBlog = async (req, res) => {
     });
   }
 };
-// Create Comments
+// create any comment
 export const AddComment = async (req, res) => {
   try {
     if (!req.body.message || req.body.message === "") {

@@ -38,7 +38,7 @@ views: {
     default: 0,
 },
 });
-
+//my tables
 const BlogeTable = mongoose.model("MyBlog", BlogSchema);
 
 export default BlogeTable;

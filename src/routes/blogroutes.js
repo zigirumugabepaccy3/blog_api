@@ -13,7 +13,7 @@ import Authorization from "../middleware/authentication";
 import commentAuthanticate from "../middleware/protect";
 
  const routeInitiator =  express.Router();
-
+//initiation
  routeInitiator.post("/createBlog",Authorization , fileUpload.single("blog_Image"), createBlog);
  routeInitiator.get("/ViewAllBlogs", ViewAllBlogs);
  routeInitiator.get("/ViewBlogById/:id",ViewBlogById);
@@ -22,3 +22,4 @@ import commentAuthanticate from "../middleware/protect";
  routeInitiator.post("/comment/:id",fileUpload.single("files"),commentAuthanticate, AddComment);
  routeInitiator.get("/comment/:id", getComments);
  export default routeInitiator;
+ 
