@@ -5,7 +5,7 @@ import morgan from "morgan";
 import cors from "cors";
 import swaggerJSDoc from "swagger-jsdoc";
 import SwaggerUi from "swagger-ui-express";
-// importing from imported routes routes
+// importing routes
 import statusRoutes from "./routes/statusRoutes";
 import routeInitiator from "./routes/blogroutes";
 import userRoutes from "./routes/userRoutes";
