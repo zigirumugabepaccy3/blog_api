@@ -117,7 +117,7 @@ export const DeleteBlog = async (req, res) => {
 export const updateBlog = async (req, res) => {
   const { id } = req.params;
   try {
-    const { blog_Image, BlogTitle, blogContent } = req.body;
+    const { blog_Image, blogTitle, blogContent } = req.body;
     const getId = await BlogeTable.findById(id);
     if (!getId)
       return res.status(404).json({
@@ -127,20 +127,22 @@ export const updateBlog = async (req, res) => {
 
     let result;
     if (req.file) result = await uploadToCloud(req.file, res);
-    await BlogeTable.findByIdAndUpdate(id, {
+   const update= await BlogeTable.findByIdAndUpdate(id, {
       blog_Image:
         result?.secure_url ||
         "https://res.cloudinary.com/dxitrjcef/image/upload/v1696870762/kazdcipwzwu0ycprzlg6.jpg",
-      BlogTitle,
+        blogTitle,
       blogContent,
     });
 
-    return res.status(201).json({
-      message: " comment sent Successfully",
+    return res.status(200).json({
+      status:"200",
+      message: " blog updated Successfully",
+      data:update,
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Failded to Update",
+      message: "Failed to Update",
       error: error.message,
     });
   }
@@ -175,11 +177,7 @@ export const AddComment = async (req, res) => {
         new: true
       }
     )
-    return res.status(201).json({
-      message: "comment sent successfully",
-      updatePost,
-      data:newComment,
-    });
+    return res.status(400).json({ message: "Blog is not found" });
   } catch (error) {
     return res.status(500).json({ Error: error.message });
   }
