@@ -21,7 +21,7 @@ export const createBlog = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      statusbar: "500",
+      status: "500",
       message: "failed to create a blog",
       error: error.message,
     });
@@ -32,13 +32,6 @@ export const createBlog = async (req, res) => {
 
 export const ViewAllBlogs = async (req, res) => {
   try {
-    // const allblogs = await BlogeTable.find();
-    // return res.status(200).json({
-    //   statusbar: "200",
-    //   message: "Here Are All Created Blogs",
-    //   data: allblogs,
-    // });
-
     const result = await BlogeTable.find().populate({path:'comment', select:'user message username'});
     return res.status(200).json({
       status:"200",
@@ -147,7 +140,7 @@ export const updateBlog = async (req, res) => {
     });
   }
 };
-// Create Comments
+// create any comment
 export const AddComment = async (req, res) => {
   try {
     if (!req.body.message || req.body.message === "") {
@@ -158,12 +151,12 @@ export const AddComment = async (req, res) => {
     const {message}=req.body;
     const getId = await BlogeTable.findById(id);
     if (!getId) {
-      return res.status(400).json({ message: "Blog is not found" });
+      return res.status(404).json({ message: "blog not found!" });
     }
     const newComment = await Comment.create({
       message,
       user: users._id,
-      BlogId: getId._id,
+      blogId: getId._id,
       username: users.firstname,
       userPhoto: users.profile,   
     });
@@ -177,7 +170,7 @@ export const AddComment = async (req, res) => {
         new: true
       }
     )
-    return res.status(400).json({ message: "Blog is not found" });
+    return res.status(201).json({ message: "comment added successfully" });
   } catch (error) {
     return res.status(500).json({ Error: error.message });
   }

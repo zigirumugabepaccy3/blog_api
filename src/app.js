@@ -27,7 +27,7 @@ const options = {
         },
         servers:[{
             url:'https://zigirumugabe-pacifique.onrender.com',
-            // url:'http://localhost:5100/',
+            // url:'http://localhost:5300/',
         }],
         security: [
             {
@@ -49,7 +49,7 @@ const options = {
     apis:['./src/documentation/*.js']
     
 }
-
+//swagger
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/documentation',SwaggerUi.serve, SwaggerUi.setup(swaggerSpec));
 
@@ -63,8 +63,6 @@ app.use("/api/Klab/info",statusRoutes);
 app.use("/api/klab/blog",routeInitiator);
 app.use("/api/Klab/user",userRoutes);
 //app.use("/api/doc",docrouter);
-
-//
 app.get("/",(req, res)=>{
     res.status(200).json({
         status: "Success",

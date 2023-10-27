@@ -90,9 +90,7 @@
  *                 type: string
  *               blogContent:
  *                 type: string
- *               blogComment:
- *                 type: string
- *               blogImage:
+ *               blog_Image:
  *                 type: string
  *                 format: binary
  *     responses:
